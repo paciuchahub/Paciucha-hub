@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PACIucha HUB</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+}
+body {
+    font-family: Arial, sans-serif;
+    background: #050816;
+    color: white;
+    overflow-x: hidden;
+}
+/* =========================
+   ANIMOWANE TŁO
+========================= */
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+        radial-gradient(circle at 20% 20%, #123a66, transparent 30%),
+        radial-gradient(circle at 80% 70%, #35145c, transparent 30%),
+        #050816;
+}
+.background::before {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: #00eaff;
+    filter: blur(150px);
+    opacity: 0.15;
+    animation: move 8s infinite alternate;
+}
+@keyframes move {
+    from {
+        transform: translate(0, 0);
+    }
+    to {
+        transform: translate(70vw, 50vh);
+    }
+}
+/* =========================
+   MENU
+========================= */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5, 8, 22, 0.85);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid #ffffff15;
+    z-index: 100;
+}
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #00eaff;
+    text-shadow: 0 0 15px #00eaff;
+}
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 22px;
+    transition: 0.3s;
+}
+nav a:hover {
+    color: #00eaff;
+}
+/* =========================
+   START
+========================= */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 100px 20px 50px;
+}
+.hero-content {
+    max-width: 800px;
+}
+.hero h1 {
+    font-size: clamp(45px, 9vw, 90px);
+    margin-bottom: 20px;
+}
+.hero h1 span {
+    color: #00eaff;
+    text-shadow: 0 0 30px #00eaff;
+}
+.hero p {
+    color: #aab4ca;
+    font-size: 19px;
+    line-height: 1.7;
+}
+.button {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 28px;
+    border: none;
+    border-radius: 12px;
+    background: #00eaff;
+    color: #02050c;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 15px;
+}
+.button:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 0 30px #00eaff;
+}
+/* =========================
+   SEKCJE
+========================= */
+section {
+    padding: 90px 8%;
+}
+.title {
+    text-align: center;
+    font-size: 38px;
+    margin-bottom: 45px;
+}
+.title span {
+    color: #00eaff;
+}
+/* =========================
+   O MNIE
+========================= */
+.about {
+    max-width: 750px;
+    margin: auto;
+    text-align: center;
+    color: #b5bfd2;
+    font-size: 18px;
+    line-height: 1.8;
+}
+/* =========================
+   PROJEKTY
+========================= */
+.projects {
+    background: rgba(0, 0, 0, 0.25);
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
+}
+.card {
+    background: rgba(17, 25, 48, 0.8);
+    border: 1px solid #ffffff12;
+    border-radius: 18px;
+    padding: 30px;
+    transition: 0.3s;
+}
+.card:hover {
+    transform: translateY(-10px);
+    border-color: #00eaff;
+    box-shadow: 0 0 30px #00eaff20;
+}
+.card .icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+.card h3 {
+    color: #00eaff;
+    margin-bottom: 12px;
+    font-size: 23px;
+}
+.card p {
+    color: #aab4ca;
+    line-height: 1.6;
+}
+.card a {
+    display: inline-block;
+    margin-top: 20px;
+    color: #00eaff;
+    text-decoration: none;
+}
+/* =========================
+   STATYSTYKI
+========================= */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+.stat {
+    text-align: center;
+    padding: 30px;
+    background: #111932;
+    border-radius: 16px;
+}
+.stat h3 {
+    font-size: 35px;
+    color: #00eaff;
+}
+.stat p {
+    color: #9ba8bf;
+    margin-top: 8px;
+}
+/* =========================
+   KONTAKT
+========================= */
+.contact {
+    text-align: center;
+}
+.message {
+    margin-top: 20px;
+    color: #00eaff;
+}
+/* =========================
+   OKNO KONTAKTOWE
+========================= */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+.modal-box {
+    position: relative;
+    width: 90%;
+    max-width: 450px;
+    padding: 40px;
+    background: #111932;
+    border: 1px solid #00eaff;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 40px #00eaff30;
+    animation: popup 0.25s ease;
+}
+.modal-box h2 {
+    color: #00eaff;
+    margin-bottom: 20px;
+}
+.modal-box p {
+    color: #aab4ca;
+    margin-bottom: 12px;
+}
+.modal-box a {
+    color: #00eaff;
+    font-size: 18px;
+    text-decoration: none;
+    word-break: break-all;
+}
+.modal-box a:hover {
+    text-decoration: underline;
+}
+.close {
+    position: absolute;
+    right: 15px;
+    top: 8px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 34px;
+    cursor: pointer;
+}
+.close:hover {
+    color: #00eaff;
+}
+@keyframes popup {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+/* =========================
+   STOPKA
+========================= */
+footer {
+    text-align: center;
+    padding: 30px;
+    background: #03050d;
+    color: #66738b;
+}
+/* =========================
+   ZEGAR
+========================= */
+.clock {
+    margin-top: 25px;
+    color: #00eaff;
+}
+/* =========================
+   TELEFON
+========================= */
+@media (max-width: 650px) {
+    header {
+        padding: 15px 5%;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .logo {
+        font-size: 21px;
+    }
+    nav a {
+        margin: 0 6px;
+        font-size: 12px;
+    }
+    section {
+        padding: 70px 6%;
+    }
+    .hero h1 {
+        font-size: 48px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="background"></div>
+<!-- =========================
+     MENU
+========================= -->
+<header>
+    <div class="logo">
+        PACIUCHA HUB.
+    </div>
+    <nav>
+        <a href="#start">Start</a>
+        <a href="#about">O mnie</a>
+        <a href="#projects">Projekty</a>
+        <a href="#stats">Statystyki</a>
+        <a href="#contact">Kontakt</a>
+    </nav>
+</header>
+<!-- =========================
+     START
+========================= -->
+<section class="hero" id="start">
+    <div class="hero-content">
+        <h1>
+            Witaj na <span>PACIucha HUB</span>
+        </h1>
+        <p>
+            Moje własne miejsce w internecie.
+            Gry, projekty, Minecraft, Roblox
+            i różne rzeczy, które tworzę.
+        </p>
+        <a href="#projects" class="button">
+            ZOBACZ PROJEKTY
+        </a>
+        <div class="clock" id="clock"></div>
+    </div>
+</section>
+<!-- =========================
+     O MNIE
+========================= -->
+<section id="about">
+    <h2 class="title">
+        O <span>mnie</span>
+    </h2>
+    <p class="about">
+        Siema! Witaj na PACIUCHA HUB.
+        To moja własna strona internetowa,
+        na której będę wrzucał moje projekty,
+        gry i różne ciekawe rzeczy.
+    </p>
+</section>
+<!-- =========================
+     PROJEKTY
+========================= -->
+<section class="projects" id="projects">
+    <h2 class="title">
+        Moje <span>projekty</span>
+    </h2>
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🎮</div>
+            <h3>Roblox</h3>
+            <p>
+                Gry i projekty tworzone
+                w Roblox Studio.
+            </p>
+            <a href="https://www.roblox.com/"
+               target="_blank"
+               rel="noopener">
+                Otwórz Roblox →
+            </a>
+        </div>
+        <div class="card">
+            <div class="icon">⛏️</div>
+            <h3>Minecraft</h3>
+            <p>
+                Serwery, budowle, Create
+                i różne minecraftowe projekty.
+            </p>
+            <a href="https://www.minecraft.net/"
+               target="_blank"
+               rel="noopener">
+                Otwórz Minecraft →
+            </a>
+        </div>
+        <div class="card">
+            <div class="icon">💻</div>
+            <h3>Web</h3>
+            <p>
+                Strony internetowe i eksperymenty
+                z HTML, CSS oraz JavaScript.
+            </p>
+            <a href="#contact">
+                Więcej wkrótce →
+            </a>
+        </div>
+        <div class="card">
+            <div class="icon">🚢</div>
+            <h3>Ships</h3>
+            <p>
+                Projekty statków i oceanicznych
+                liniowców.
+            </p>
+            <a href="#contact">
+                Więcej wkrótce →
+            </a>
+        </div>
+    </div>
+</section>
+<!-- =========================
+     STATYSTYKI
+========================= -->
+<section id="stats">
+    <h2 class="title">
+        Moje <span>statystyki</span>
+    </h2>
+    <div class="stats">
+        <div class="stat">
+            <h3>4</h3>
+            <p>Projekty</p>
+        </div>
+        <div class="stat">
+            <h3>∞</h3>
+            <p>Pomysłów</p>
+        </div>
+        <div class="stat">
+            <h3>2026</h3>
+            <p>Rok startu</p>
+        </div>
+    </div>
+</section>
+<!-- =========================
+     KONTAKT
+========================= -->
+<section class="contact" id="contact">
+    <h2 class="title">
+        <span>Kontakt</span>
+    </h2>
+    <p class="about">
+        Chcesz się ze mną skontaktować?
+        Kliknij przycisk poniżej.
+    </p>
+    <button class="button" onclick="openContact()">
+        KLIKNIJ MNIE 📧
+    </button>
+</section>
+<!-- =========================
+     OKNO Z E-MAILEM
+========================= -->
+<div id="contactModal" class="modal">
+    <div class="modal-box">
+        <button class="close" onclick="closeContact()">
+            ×
+        </button>
+        <h2>📧 Kontakt</h2>
+        <p>
+            Mój adres e-mail:
+        </p>
+        <a href="mailto:kontaktkubahub@gmail.com">
+            kontaktkubahub@gmail.com
+        </a>
+    </div>
+</div>
+<!-- =========================
+     STOPKA
+========================= -->
+<footer>
+    © 2026 PACIUCHA HUB.
+    Wszystkie prawa zastrzeżone.
+</footer>
+<script>
+/* ZEGAR */
+function updateClock() {
+    const now = new Date();
+    document.getElementById("clock").textContent =
+        "🕐 Aktualna godzina: " +
+        now.toLocaleTimeString("pl-PL");
+}
+updateClock();
+setInterval(updateClock, 1000);
+/* OTWIERANIE OKNA */
+function openContact() {
+    document.getElementById("contactModal").style.display = "flex";
+}
+/* ZAMYKANIE OKNA */
+function closeContact() {
+    document.getElementById("contactModal").style.display = "none";
+}
+/* KLIKNIĘCIE POZA OKNEM */
+window.addEventListener("click", function(event) {
+    const modal = document.getElementById("contactModal");
+    if (event.target === modal) {
+        closeContact();
+    }
+});
+/* ESC ZAMYKA OKNO */
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeContact();
+    }
+});
+</script>
+</body>
+</html>
